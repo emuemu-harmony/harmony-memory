@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>HARMONY MEMORY - Matching Card Game</title>
+
+<style>
+body{
+    font-family:sans-serif;
+    text-align:center;
+}
+
+#game{
+    display:grid;
+    grid-template-columns:repeat(4,120px);
+    gap:10px;
+    justify-content:center;
+}
+
+.card{
+    width:120px;
+    height:120px;
+    background:#4c7cff;
+    border-radius:10px;
+    cursor:pointer;
+    overflow:hidden;
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+</style>
+</head>
+
+<body>
+
+<body>
+
+<h1>HARMONY MEMORY</h1>
+<p>Find the matching pairs</p>
+
+<div id="game"></div>
+
+<script>
+
+const images = [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+];
+
+// ペア作成
+let cards = [...images, ...images];
+
+// シャッフル
+cards.sort(() => Math.random() - 0.5);
+
+const game = document.getElementById("game");
+
+let first = null;
+let lock = false;
+
+cards.forEach(src => {
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.dataset.image = src;
+    card.dataset.open = "false";
+
+    card.innerHTML = '<img src="back.jpg">';
+
+    card.addEventListener("click", () => {
+
+        if(lock) return;
+        if(card.dataset.open === "true") return;
+
+        card.innerHTML = `<img src="${src}">`;
+        card.dataset.open = "true";
+
+        if(!first){
+            first = card;
+            return;
+        }
+
+        if(first.dataset.image === src){
+            first = null;
+        }else{
+
+            lock = true;
+
+            setTimeout(() => {
+
+                first.innerHTML = '<img src="back.jpg">';
+                card.innerHTML = '<img src="back.jpg">';
+                first.dataset.open = "false";
+                card.dataset.open = "false";
+
+                first = null;
+                lock = false;
+
+            },1000);
+        }
+    });
+
+    game.appendChild(card);
+});
+
+</script>
+
+</body>
+</html>
