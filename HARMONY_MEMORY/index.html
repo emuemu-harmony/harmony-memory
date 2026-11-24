@@ -64,6 +64,7 @@ const game = document.getElementById("game");
 
 let first = null;
 let lock = false;
+let matchedPairs = 0;
 
 cards.forEach(src => {
 
@@ -88,10 +89,17 @@ cards.forEach(src => {
             return;
         }
 
-        if(first.dataset.image === src){
-            first = null;
-        }else{
+       if(first.dataset.image === src){
 
+    matchedPairs++;
+
+    if(matchedPairs === 6){
+        alert("Congratulations!\n\nYou matched all Harmony cards!");
+    }
+
+    first = null;
+
+    }else{
             lock = true;
 
             setTimeout(() => {
