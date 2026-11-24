@@ -93,8 +93,12 @@ cards.forEach(src => {
 
     matchedPairs++;
 
-    if(matchedPairs === 6){
-        alert("Congratulations!\n\nYou matched all Harmony cards!");
+   if(matchedPairs === 6){
+
+        setTimeout(() => {
+            alert("Congratulations!\n\nYou matched all Harmony cards!");
+        }, 300);
+
     }
 
     first = null;
