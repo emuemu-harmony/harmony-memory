@@ -57,13 +57,11 @@ const images = [
     "3.jpg",
     "4.jpg",
     "5.jpg",
-    "6.jpg",
+    "6.jpg"
 ];
 
-// ペア作成
 let cards = [...images, ...images];
 
-// シャッフル
 cards.sort(() => Math.random() - 0.5);
 
 const game = document.getElementById("game");
@@ -76,8 +74,8 @@ let moves = 0;
 cards.forEach(src => {
 
     const card = document.createElement("div");
-    card.className = "card";
 
+    card.className = "card";
     card.dataset.image = src;
     card.dataset.open = "false";
 
@@ -85,78 +83,57 @@ cards.forEach(src => {
 
     card.addEventListener("click", () => {
 
+        if(lock) return;
+        if(card.dataset.open === "true") return;
+
+        card.innerHTML = `<img src="${src}">`;
+        card.dataset.open = "true";
+
         if(!first){
-    first = card;
-    return;
-}
-
-moves++;
-card.addEventListener("click", () => {
-
-    if(lock) return;
-    if(card.dataset.open === "true") return;
-
-    card.innerHTML = `<img src="${src}">`;
-    card.dataset.open = "true";
-
-    if(!first){
-        first = card;
-        return;
-    }
-
-    moves++;
-    document.getElementById("moves").textContent = moves;
-
-    if(first.dataset.image === src){
-
-        matchedPairs++;
-
-        if(matchedPairs === 6){
-
-            setTimeout(() => {
-                alert("Congratulations!\n\nYou matched all Harmony cards!");
-            }, 500);
-
+            first = card;
+            return;
         }
 
-        first = null;
+        moves++;
+        document.getElementById("moves").textContent = moves;
 
-    }else{
+        if(first.dataset.image === src){
 
-        lock = true;
+            matchedPairs++;
 
-        setTimeout(() => {
+            if(matchedPairs === 6){
 
-            first.innerHTML = '<img src="back.jpg">';
-            card.innerHTML = '<img src="back.jpg">';
+                setTimeout(() => {
+                    alert("Congratulations!\n\nYou matched all Harmony cards!");
+                }, 500);
 
-            first.dataset.open = "false";
-            card.dataset.open = "false";
+            }
 
             first = null;
-            lock = false;
 
-        },1000);
-    }
-});
-}
+        } else {
+
             lock = true;
 
             setTimeout(() => {
 
                 first.innerHTML = '<img src="back.jpg">';
                 card.innerHTML = '<img src="back.jpg">';
+
                 first.dataset.open = "false";
                 card.dataset.open = "false";
 
                 first = null;
                 lock = false;
 
-            },1000);
+            }, 1000);
+
         }
+
     });
 
     game.appendChild(card);
+
 });
 
 </script>
