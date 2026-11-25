@@ -65,6 +65,7 @@ const game = document.getElementById("game");
 let first = null;
 let lock = false;
 let matchedPairs = 0;
+let moves = 0;
 
 cards.forEach(src => {
 
@@ -88,7 +89,9 @@ cards.forEach(src => {
             first = card;
             return;
         }
-
+　　　　　moves++;
+　　　　　document.getElementById("moves").textContent = moves;
+        
        if(first.dataset.image === src){
 
     matchedPairs++;
