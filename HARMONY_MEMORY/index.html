@@ -91,38 +91,54 @@ cards.forEach(src => {
 }
 
 moves++;
-document.getElementById("moves").textContent = moves;
+card.addEventListener("click", () => {
 
-if(first.dataset.image === src){
+    if(lock) return;
+    if(card.dataset.open === "true") return;
 
-    matchedPairs++;
+    card.innerHTML = `<img src="${src}">`;
+    card.dataset.open = "true";
 
-    if(matchedPairs === 6){
-
-        setTimeout(() => {
-            alert("Congratulations!\n\nYou matched all Harmony cards!");
-        }, 500);
-
+    if(!first){
+        first = card;
+        return;
     }
 
-    first = null;
+    moves++;
+    document.getElementById("moves").textContent = moves;
 
-}else{
+    if(first.dataset.image === src){
 
-    lock = true;
+        matchedPairs++;
 
-    setTimeout(() => {
+        if(matchedPairs === 6){
 
-        first.innerHTML = '<img src="back.jpg">';
-        card.innerHTML = '<img src="back.jpg">';
+            setTimeout(() => {
+                alert("Congratulations!\n\nYou matched all Harmony cards!");
+            }, 500);
 
-        first.dataset.open = "false";
-        card.dataset.open = "false";
+        }
 
         first = null;
-        lock = false;
 
-    },1000);
+    }else{
+
+        lock = true;
+
+        setTimeout(() => {
+
+            first.innerHTML = '<img src="back.jpg">';
+            card.innerHTML = '<img src="back.jpg">';
+
+            first.dataset.open = "false";
+            card.dataset.open = "false";
+
+            first = null;
+            lock = false;
+
+        },1000);
+    }
+});
 }
             lock = true;
 
