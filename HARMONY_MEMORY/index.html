@@ -85,34 +85,45 @@ cards.forEach(src => {
 
     card.addEventListener("click", () => {
 
-        if(lock) return;
-        if(card.dataset.open === "true") return;
-
-        card.innerHTML = `<img src="${src}">`;
-        card.dataset.open = "true";
-
         if(!first){
-            first = card;
-            return;
-        }
-　　　　　moves++;
-　　　　　document.getElementById("moves").textContent = moves;
-        
-       if(first.dataset.image === src){
+    first = card;
+    return;
+}
+
+moves++;
+document.getElementById("moves").textContent = moves;
+
+if(first.dataset.image === src){
 
     matchedPairs++;
 
-   if(matchedPairs === 6){
+    if(matchedPairs === 6){
 
         setTimeout(() => {
             alert("Congratulations!\n\nYou matched all Harmony cards!");
-        }, 300);
+        }, 500);
 
     }
 
     first = null;
 
-    }else{
+}else{
+
+    lock = true;
+
+    setTimeout(() => {
+
+        first.innerHTML = '<img src="back.jpg">';
+        card.innerHTML = '<img src="back.jpg">';
+
+        first.dataset.open = "false";
+        card.dataset.open = "false";
+
+        first = null;
+        lock = false;
+
+    },1000);
+}
             lock = true;
 
             setTimeout(() => {
